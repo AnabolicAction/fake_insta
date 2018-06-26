@@ -6,6 +6,7 @@ class PostsController < ApplicationController
   end
 
   def new
+    @post=Post.new #랜더링을 하기위해서 비어있는 Post를 만들어준다
   end
 
   def create
@@ -28,7 +29,7 @@ class PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    redirct_to "/"
+    redirect_to "/"
   end
 
   private
@@ -37,6 +38,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.permit(:title, :content)
+    params.require(:post).permit(:title, :content)
   end
 end

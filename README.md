@@ -87,4 +87,17 @@
    $rails generate devise:views users
    ```
 
-   
+
+~~~ruby
+Post.find(1)
+Post.first(3)
+Post.last(3)
+Post.order(:title)
+Post.order(title: :desc)
+Post.order(title: :asc)
+Post.where("title=?","Vivi") #타이틀컬럼에서 Vivi를 찾아줘
+Post.where("title like ?" , "%vi%")#타이틀컬럼에서 vi가 들어간거 찾아줘
+Post.where.not("조건")
+User.where("age > ? AND gender=?", 25,"male")
+~~~
+

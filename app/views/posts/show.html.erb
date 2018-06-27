@@ -1,11 +1,15 @@
 <h1>글 봐!!</h1>
-<%= @post.id %>번째 글
-<%= @post.title %>
-<%= @post.content %>
+<%= @post.id %>번째 글<br  />
+제목 : <%= @post.title %> <br  />
+내용 : <%= @post.content %><br  />
+<% if can? :edit, @post %>
   <%= link_to '수정하기',edit_post_path(@post) %>
+  <%end%>
+  <%if can? :desroy, @post%>
   <%= link_to '삭제하기',@post,
                         method: :delete,
                         data: {confirm: "지울꺼야?"} %>
+  <%end%>
 <!-- <a href="/posts/<%= @post.id %>/edit">수정하기</a>
 <a href="/posts/<%= @post.id %>" data-method="delete" data-confirm="삭제할래?">삭제하기</a> -->
 <hr />

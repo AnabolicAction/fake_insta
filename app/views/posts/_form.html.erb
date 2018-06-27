@@ -5,7 +5,8 @@
 <%#end%>
 
 <%= simple_form_for @post do |f| %>
-  <%= f.input :title%>
-<%= f.input :content%>
+  <%= f.error_notification%>
+제목 :  <%= f.input :title%>
+내용 : <%= f.input :content%>
 <%= f.button :submit, class:"btn-primary"%>
 <%end%>

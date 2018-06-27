@@ -166,7 +166,7 @@ $bundle install
 3. 설치
 
 ~~~erb
-$rails generate simple_form:install
+$rails generate simple_form:install --bootstrap
 ~~~
 
 4. Bootstrap 프로젝트에 적용

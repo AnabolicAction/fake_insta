@@ -5,7 +5,7 @@
 <% if can? :edit, @post %>
   <%= link_to '수정하기',edit_post_path(@post) %>
   <%end%>
-  <%if can? :desroy, @post%>
+  <%if can? :destroy, @post%>
   <%= link_to '삭제하기',@post,
                         method: :delete,
                         data: {confirm: "지울꺼야?"} %>
@@ -14,14 +14,95 @@
 <a href="/posts/<%= @post.id %>" data-method="delete" data-confirm="삭제할래?">삭제하기</a> -->
 <hr />
 
-<form action="/posts/<%= @post.id%>/comments" method="post">
+<form action="/posts/<%= @post.id%>/comments" method="post" data-remote=true>
   <input type="text" name="content" /><br />
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <input type="submit" />
 </form>
 <hr />
 
-<% @comments.each do |comment| %>
-  <%= comment.content %>
-  <hr />
-<% end %>
+<div id="commnets">
+  <% @comments.each do |comment| %>
+  <p>
+    <%= comment.content %>
+    <%= link_to '댓글삭제하기', destroy_comment_path(comment.id), remote: true,
+        method: :delete,class: "delete_comment"%>
+  </p>
+    <hr />
+  <% end %>
+</div>
+<script>
+$('form').on('ajax:success',function(){
+                            $('input[name="content"]').val('');
+});
+
+</script>
+<!--
+<script>
+$('input[type="submit"]').on('click', function(e){
+  e.preventDefault(); //submit 막아준다
+  alert('start');
+  $.ajax({
+    url: $('form').attr('action'),
+    type: "POST",
+    data: {content: $('input[name="content"]').val(),
+            authenticity_token:$('[name="csrf-token"]').attr('content')},
+    dataType: 'script',
+    success: function(){
+      alert('성공')
+      $('input[name="content"]').val('');
+    },
+    error: function(){
+      alert('실패')
+    }
+  });
+});
+
+$('.delete_comment').on('click',function(e){
+  e.preventDefault();
+  alert('start_delete');
+  $.ajax({
+    url: this.href,
+    type: "DELETE",
+    data: {content: $('input[name="content"]').val(),
+          authenticity_token: $('[name="csrf-token"]').attr('content')},
+    dataType: "script",
+    success: function(){
+      alert('complete');
+    },
+    error: function(){
+      alert('delete_error');
+    }
+  });
+});
+
+</script> -->
+
+
+
+ <!-- <script>
+   $('input[type="submit"]').on('click' , function(e){
+                                            var response =  confirm("정말 제출 하실건가용?")
+    if(!response){
+      //response == false 면 실행
+      //e.preventDefault(); //submit 을 막아준다
+      return false;
+    }else {
+      //e.stopImmediatePropagation(); 동일한 elemnent에 있는 다른 이벤트들 발생 안함
+      return true;
+
+    }
+   });
+
+
+  function checkContentLen(e){
+    var content=$('input[name="content"]').val();
+    if (content.length <10){
+      alert('10글자 이상 작성해 주세요');
+      return false;
+    }else{
+      alert('참 잘했어요!');
+    }
+  }
+$('input[type="submit"]').on('click' , checkContentLen)
+ </script> -->
